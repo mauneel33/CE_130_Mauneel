@@ -1,0 +1,5 @@
+csc /t:module addition.cs
+
+csc /t:module multiplication.cs
+
+csc /t:library /out:calc.dll /addmodule:addition.netmodule /addmodule:multiplication.netmodule
