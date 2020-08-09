@@ -1,0 +1,11 @@
+To create a Strongly Named Assembly:
+	- create a key file : "sn -k calcKey.snk"
+	- compile : "csc /t:library /keyfile:calcKey.snk calc.cs"
+
+To deploy it to GAC:
+	- "gacutil -i calc.dll"
+
+To create New Version:
+	- change line [assembly: AssemblyVersion("0.0.0.0")] to new version in calc.cs
+	- create key file and compile it
+	- deploy again using : "gacutil -i calc.dll"
