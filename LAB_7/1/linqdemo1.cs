@@ -6,7 +6,7 @@ namespace LINQdemo1_2
 {
     class linqdemo1
     {
-        /*static void Main(string[] args)
+        static void Main(string[] args)
         {
             List<int> numlist = new List<int>();
             for(int i=1; i<=100; i++)
@@ -44,6 +44,6 @@ namespace LINQdemo1_2
             Console.WriteLine(avg);
 
             Console.ReadKey();
-        }*/
+        }
     }
 }
