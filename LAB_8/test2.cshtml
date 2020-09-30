@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "Addition";
+}
+
+<h3>Addition</h3>
+<form asp-controller="Home" asp-action="test2" method="post">
+    <table cellpadding="5">
+        <tr>
+            <td>Enter num1: </td>
+            <td><input type="number" name="num1"></td>
+        </tr>
+        <tr>
+            <td>Enter num2: </td>
+            <td><input type="number" name="num2"></td>
+        </tr>
+        <tr>
+            <td colspan="2"><button type="submit">Add</button></td>
+        </tr>
+    </table>
+    <br/>
+</form>
+    
+<p style="color:green">
+    Addition : @ViewBag.sum<br />
+</p>

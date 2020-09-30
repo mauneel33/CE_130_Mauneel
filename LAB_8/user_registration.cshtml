@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewData["Title"] = "User Registration";
+}
+
+<h3>Register</h3>
+<form method="post">
+    <table cellpadding="5">
+        <tr>
+            <td>Name: </td>
+            <td>@Html.TextBox("txtname", null, new { placeholder = "Click Here" })</td>
+        </tr>
+        <tr>
+            <td>Email: </td>
+            <td><input type="email" name="txtemail"></td>
+        </tr>
+        <tr>
+            <td>Password: </td>
+            <td>@Html.Password("txtpaswd")</td>
+        </tr>
+        <tr>
+            <td>Hobbies: </td>
+            <td>@Html.CheckBox("cbhob", "sports")&nbsp;Sports&nbsp;&nbsp;@Html.CheckBox("cbhob", "books")&nbsp;Books</td>
+        </tr>
+        <tr>
+            <td>Gender: </td>
+            <td>@Html.RadioButton("rbgen", "male")&nbsp;Male&nbsp;&nbsp;@Html.RadioButton("rbgen", "female")&nbsp;Female</td>
+        </tr>
+        <tr>
+            <td>Address: </td>
+            <td>@Html.TextArea("txtaddr", null, new { row = "4", placeholder = "Enter Address" })</td>
+        </tr>
+        <tr>
+            <td>Country: </td>
+            <td>@Html.DropDownList("ddlcountry", new List<SelectListItem>{
+                new SelectListItem{Text="Australia",Value="aus"},
+                new SelectListItem{Text="India",Value="ind"},
+                new SelectListItem{Text="SriLanka",Value="sri"},
+            })</td>
+        </tr>
+        <tr>
+            <td colspan="2"><button class="btn btn-primary" type="submit">Sign Up</button></td>
+        </tr>
+    </table>
+    <br />
+</form>
+
