@@ -1,0 +1,54 @@
+﻿@model Lab10_Authent.Models.Order
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        document.getElementById("prodid").value = -1;
+        function update_amt() {
+            var prods = @Json.Serialize(ViewData["products"]);
+            var prodid = document.getElementById("prodid").value;
+            var amt;
+            for (var i = 0; i < prods.length; i++) {
+                if (prods[i].productId == prodid) {
+                    amt = prods[i].price;
+                }
+            }
+            document.getElementById("amt").value = amt;
+        }
+    </script>
+}
+
+<h1>Create</h1>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CustomerId" class="control-label"></label>
+                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Product</label>
+                <select id="prodid" asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductName" onchange="update_amt()"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Amount</label>
+                <input id="amt" asp-for="amount" class="form-control" placeholder="Select a product" readonly />
+                <span asp-validation-for="amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Place Order" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
