@@ -1,0 +1,47 @@
+﻿@model List<OnlinePollingSystem.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<h1>User Details</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                No. of polls
+            </th>
+            <th>
+                No. of votes
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nop)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nov)
+            </td>
+            <td>
+                <a asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

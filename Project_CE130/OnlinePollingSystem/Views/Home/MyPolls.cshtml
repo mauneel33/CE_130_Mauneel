@@ -1,0 +1,95 @@
+﻿@model List<OnlinePollingSystem.Models.Poll>
+@inject OnlinePollingSystem.Data.ApplicationDbContext context
+
+@{
+    ViewData["Title"] = "MyPolls";
+}
+
+<div class="container">
+
+        <div class="row p-2">
+            <div class="col-md-12">
+                <div class="card profile-card">
+                    <div class="card-body text-center">
+                        <h6 class="display-4" style="font-size:3rem">
+                            <i class="fa fa-user" aria-hidden="true"></i> @context.ApplicationUsers.Single(au => au.Email == User.Identity.Name).Name
+                        </h6>
+                        <br/>
+                        <div class="d-inline-block p-3">
+                            <h6 class="display-4 font-weight-bold" style="font-size:2rem">
+                                @context.ApplicationUsers.Single(au => au.Email == User.Identity.Name).Nop
+                            </h6>
+                            <h6 class="display-4" style="font-size:1.5rem">
+                                Total Polls Added
+                            </h6>
+                        </div>
+                        <div class="d-inline-block p-3">
+                            <h6 class="display-4 font-weight-bold" style="font-size:2rem">
+                                @context.ApplicationUsers.Single(au => au.Email == User.Identity.Name).Nov
+                            </h6>
+                            <h6 class="display-4" style="font-size:1.5rem">
+                                Total Votes Gained
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+
+        @if(Model.Count == 0)
+        {
+            <div class="text-center">
+                <br/>
+                <h6 class="display-4">No polls!</h6>
+                <a asp-area="" asp-controller="Home" asp-action="AddPoll" style="font-size:1.5rem">Add a poll</a>
+            </div>
+            
+        }
+        @foreach (var p in Model)
+        {
+            string[] opt = p.Opt.Split(",");
+            string[] v = p.Votes.Split(",");
+            int size = opt.Length;
+            List<double> votes = new List<double>();
+            List<double> pvotes = new List<double>();
+            double totvotes = 0;
+            for(int i=0; i<size; i++)
+            {
+                votes.Add(Int64.Parse(v[i]));
+                totvotes += votes[i];
+            }
+            for(int i=0; i<size; i++)
+            {
+                if (votes[i] == 0)
+                    pvotes.Add(0);
+                else
+                    pvotes.Add(Math.Round(votes[i]*100/totvotes));
+            }
+            <div class="row p-2">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-dark text-light" style=" float:left;" data-toggle="tooltip" title="Author">
+                            <i class="fa fa-user-o" aria-hidden="true"></i> @context.ApplicationUsers.Single(au => au.Id == p.UserId).Name
+                            <a class="float-right text-light" asp-action="Delete" asp-route-id="@p.PollId">Delete</a>
+                        </div>
+                        <div class="card-body text-center" data-toggle="tooltip" title="Current Vote Percentage">
+                            <p style="font-size:1.5rem;">@p.Que</p>
+                            @for (int i = 0; i < size; i++)
+                            {
+                                <div class='progress' style='height: 50px; background-color:#BFC9CA'>
+                                    <div class='progress-bar text-dark' style='text-align: center; font-size: 1.2rem; background-color: #00FF00; height: 50px; width:@pvotes[i]%;' role='progressbar' aria-valuenow='@pvotes[i]' aria-valuemin='0' aria-valuemax='100'>
+                                        <p class='p-3'>@opt[i] - @pvotes[i]%</p>
+                                        <span class='sr-only'>@pvotes[i]%</span>
+                                    </div>
+                                </div>
+                                <br />
+                            }
+                        </div>
+                            <div class="card-footer text-muted">
+                                <span class="text-muted" style="float:right;" data-toggle="tooltip" title="Date of publication">@p.Date</span>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        }
+</div>

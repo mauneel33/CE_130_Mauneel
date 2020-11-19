@@ -1,0 +1,60 @@
+﻿@model List<OnlinePollingSystem.Models.Poll>
+
+@{
+    ViewData["Title"] = "Poll Details";
+}
+
+<h1>Poll Details</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                PollID
+            </th>
+            <th>
+                UserID
+            </th>
+            <th>
+                Question
+            </th>
+            <th>
+                Options
+            </th>
+            <th>
+                Votes
+            </th>
+            <th>
+                Date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PollId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Que)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Opt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Votes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                <a asp-controller="Admin" asp-action="DeletePoll" asp-route-id="@item.PollId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

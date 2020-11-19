@@ -1,0 +1,30 @@
+﻿@model OnlinePollingSystem.Models.Poll
+
+@{
+    ViewData["Title"] = "AddPoll";
+}
+
+<h1>Add Poll</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddPoll">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Que" class="control-label">Question:</label>
+                <textarea cols="500" rows="3" asp-for="Que" class="form-control" placeholder="No Inappropriate Question"></textarea>
+                <span asp-validation-for="Que" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Opt" class="control-label">Options:</label>
+                <textarea cols="500" rows="3" asp-for="Opt" class="form-control" placeholder="Enter comma separeted values, Min 2 options and Max 4 options (eg. Mercury,Venus,Earth)"></textarea>
+                <span asp-validation-for="Opt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,122 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model List<Poll>
+@inject OnlinePollingSystem.Data.ApplicationDbContext context
+@{ int pollid;}
+
+
+@section Scripts{
+    <script type="text/javascript">
+
+        function showResult(event) {
+            var i = event.target.id;
+            var ids = i.split(",");
+            var pollid = ids[0];
+            var optid = ids[1];
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UpdateVote")",
+                data: { pollid: pollid, optid: optid },
+                dataType: "json",
+                success: function (response) {
+                    appendCode(response, pollid, optid);
+                    console.log(response);
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+        }
+        function appendCode(response, pollid, optid) {
+
+            $("#" + pollid).attr("title", "Current votes percentage");
+            $("#" + pollid).empty();
+            $("#" + pollid).append(
+                "<p style='font-size:1.5rem;'>" + response.que + "</p>"
+            );
+            var opts = response.opt.split(",");
+            var votes = response.votes.split(",");
+            var size = opts.length;
+            var totvotes=0;
+            for (let i = 0; i < size; i++) {
+                totvotes += parseInt(votes[i]);
+            }
+            
+            var pvotes = [];
+            for (let i = 0; i < size; i++) {
+                pvotes.push(Math.round(votes[i] * 100 / totvotes));
+            }
+            console.log(pvotes);
+            console.log(totvotes);
+            console.log(votes);
+            for (let i = 0; i < size; i++) {
+
+                var txtpdiv = "<div class='progress' style='height: 50px; background-color:#BFC9CA'></div>";
+                var txtipdiv = "<div class='progress-bar text-dark' style='text-align: center; font-size: 1.2rem; background-color: #00FF00; height: 50px; width:" + pvotes[i] +"%;' role='progressbar' aria - valuenow='"+pvotes[i]+"' aria - valuemin='0' aria - valuemax='100'></div>"
+                var txtp = "<p class='p-3'></p>";
+                var txtspan = "<span class='sr-only'></span>";
+
+                var p = $(txtp);
+                p.text(opts[i] + " - " + pvotes[i]+"%");        //p text
+
+                var span = $(txtspan);
+                span.text(pvotes[i] + "%");                     //Span text
+
+                var pdiv = $(txtpdiv);
+                var ipdiv = $(txtipdiv);
+                var newline = $("<br/>");
+                ipdiv.append(p);
+                ipdiv.append(span);
+                pdiv.append(ipdiv);
+                pdiv.append();
+
+                $("#" + pollid).append(pdiv);
+                $("#" + pollid).append(newline);
+            }
+        }
+    </script>
+}
+
+    <div class="container">
+        @if(Model.Count == 0)
+        {
+            <div class="text-center">
+                <h6 class="display-4">Sorry, No new polls!</h6>
+                <a asp-area="" asp-controller="Home" asp-action="AddPoll">Add a poll</a>
+            </div>
+            
+        }
+        @foreach (var p in Model)
+        {
+            pollid = p.PollId;
+            <div class="row p-2">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-dark text-light" style=" float:left;" data-toggle="tooltip" title="Author">
+                            <i class="fa fa-user-o" aria-hidden="true"></i> @context.ApplicationUsers.Single(au => au.Id == p.UserId).Name
+                        </div>
+                        <div class="card-body text-center" data-toggle="tooltip" title="Double Click a Option to Vote" id="@pollid">
+                            <p style="font-size:1.5rem;">@p.Que</p>
+                            @{
+                                string[] options = p.Opt.Split(",");
+                            }
+                            @{int i = 0;}
+                            @foreach (string o in options)
+                             {
+                                    <button id="@pollid,@i" type="button" class="btn btn-outline-primary btn-lg btn-block option" ondblclick="showResult(event)">@o</button>
+                                    i++;
+                             }
+                        </div>
+                            <div class="card-footer text-muted">
+                                <!--<button id="aboutus-btn" class="btn btn-md">Vote</button>-->
+                                <span class="text-muted" style="float:right;" data-toggle="tooltip" title="Date of publication">@p.Date</span>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        }
+    </div>
+
+

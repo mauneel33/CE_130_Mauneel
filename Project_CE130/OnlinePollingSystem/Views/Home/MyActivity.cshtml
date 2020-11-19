@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewData["Title"] = "UserActivity";
+}
+@model List<OnlinePollingSystem.Models.Poll>
+@inject OnlinePollingSystem.Data.ApplicationDbContext context
+@using OnlinePollingSystem.Models 
+<div class="container">
+
+    @if (Model.Count == 0)
+    {
+        <div class="text-center">
+            <br />
+            <h6 class="display-4">No polls!</h6>
+        </div>
+
+    }
+    @foreach (var p in Model)
+    {
+        string[] opt = p.Opt.Split(",");
+        string[] v = p.Votes.Split(",");
+        int size = opt.Length;
+        List<double> votes = new List<double>();
+        List<double> pvotes = new List<double>();
+        double totvotes = 0;
+        for (int i = 0; i < size; i++)
+        {
+            votes.Add(Int64.Parse(v[i]));
+            totvotes += votes[i];
+        }
+        for (int i = 0; i < size; i++)
+        {
+            if (votes[i] == 0)
+                pvotes.Add(0);
+            else
+                pvotes.Add(Math.Round(votes[i] * 100 / totvotes));
+        }
+        string userid = context.ApplicationUsers.Single(au=> au.Email == User.Identity.Name).Id;
+        UserActivity ua = context.UserActivities.Single(ua=>ua.PollId == p.PollId && ua.UserId == userid);
+        string sopt = ua.Option;
+        <div class="row p-2">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-dark text-light" style=" float:left;" data-toggle="tooltip" title="Author">
+                        <i class="fa fa-user-o" aria-hidden="true"></i> @context.ApplicationUsers.Single(au => au.Id == p.UserId).Name
+                    </div>
+                    <div class="card-body text-center" data-toggle="tooltip" title="Current Vote Percentage">
+                        <p style="font-size:1.5rem;">@p.Que</p>
+                        @for (int i = 0; i < size; i++)
+                        {
+                            if (opt[i].Equals(sopt))
+                            {
+                                <div class='progress' style='height: 50px; background-color:#BFC9CA' data-toggle="tooltip" title="Your Selected Option">
+                                    <div class='progress-bar text-dark' style='text-align: center; font-size: 1.2rem; background-color: #ff3300; height: 50px; width:@pvotes[i]%;' role='progressbar' aria-valuenow='@pvotes[i]' aria-valuemin='0' aria-valuemax='100'>
+                                        <p class='p-3'>@opt[i] - @pvotes[i]%</p>
+                                        <span class='sr-only'>@pvotes[i]%</span>
+                                    </div>
+                                </div>
+                                <br />
+                            }
+                            else
+                            {
+                                <div class='progress' style='height: 50px; background-color:#BFC9CA'>
+                                    <div class='progress-bar text-dark' style='text-align: center; font-size: 1.2rem; background-color: #00FF00; height: 50px; width:@pvotes[i]%;' role='progressbar' aria-valuenow='@pvotes[i]' aria-valuemin='0' aria-valuemax='100'>
+                                        <p class='p-3'>@opt[i] - @pvotes[i]%</p>
+                                        <span class='sr-only'>@pvotes[i]%</span>
+                                    </div>
+                                </div>
+                                <br />
+                            }
+                        }
+                    </div>
+                    <div class="card-footer text-muted">
+                        <span class="text-muted" style="float:right;" data-toggle="tooltip" title="Date of publication">@p.Date</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

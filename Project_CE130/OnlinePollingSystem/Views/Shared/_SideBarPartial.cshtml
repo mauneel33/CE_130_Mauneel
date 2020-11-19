@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<OnlinePollingSystem.Models.ApplicationUser> SignInManager
+@inject UserManager<OnlinePollingSystem.Models.ApplicationUser> UserManager
+@inject OnlinePollingSystem.Data.ApplicationDbContext context
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        ApplicationUser au = context.ApplicationUsers.Single(au => au.Email == User.Identity.Name);
+        var flag = await SignInManager.UserManager.IsInRoleAsync(au, "Admin");
+        if (flag)
+        {
+
+        }
+        else
+        {
+            <a class="navbar-brand text-dark border-bottom" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            <br />
+            <a class="navbar-brand text-dark border-bottom" asp-area="" asp-controller="Home" asp-action="AddPoll">Add Poll</a>
+            <br />
+            <a class="navbar-brand text-dark border-bottom" asp-area="" asp-controller="Home" asp-action="MyPolls">My Polls</a>
+            <br />
+            <a class="navbar-brand text-dark" asp-area="" asp-controller="Home" asp-action="MyActivity">My Activity</a>
+            <br />
+        }
+
+    }
+    else
+    {
+
+    }
+</ul>

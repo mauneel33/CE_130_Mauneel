@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<OnlinePollingSystem.Models.ApplicationUser> SignInManager
+@inject UserManager<OnlinePollingSystem.Models.ApplicationUser> UserManager
+@inject OnlinePollingSystem.Data.ApplicationDbContext context
+
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    ApplicationUser au = context.ApplicationUsers.Single(au=>au.Email==User.Identity.Name);
+    var flag = await SignInManager.UserManager.IsInRoleAsync(au, "Admin");
+    if (flag)
+    {
+        <li class="nav-item">
+            <a  class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">
+                Welcome Admin <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a  class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">
+                User Details
+            </a>
+        </li>
+        <li class="nav-item">
+            <a  class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="PollDetails">
+                Poll Details
+            </a>
+        </li>
+        <li class="nav-item">
+            <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" data-toggle ="tooltip" title="Your Profile">
+            @context.ApplicationUsers.Single(au => au.Email == User.Identity.Name).Name <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}
+</ul>
