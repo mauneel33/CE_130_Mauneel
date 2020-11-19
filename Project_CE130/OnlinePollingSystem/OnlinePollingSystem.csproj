@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-OnlinePollingSystem-F59D0997-061B-4682-8925-3419B0A9F6E2</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20201119090352_cascadeDeleteFeature.cs" />
+    <Compile Remove="Data\Migrations\20201119090352_cascadeDeleteFeature.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201119090854_cascadeDeleteF.cs" />
+    <Compile Remove="Data\Migrations\20201119090854_cascadeDeleteF.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201119091132_casDeleteF.cs" />
+    <Compile Remove="Data\Migrations\20201119091132_casDeleteF.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201119091456_cdeleteF.cs" />
+    <Compile Remove="Data\Migrations\20201119091456_cdeleteF.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201119095131_cascadeDelete1.cs" />
+    <Compile Remove="Data\Migrations\20201119095131_cascadeDelete1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201119095337_cascadeDelete1.cs" />
+    <Compile Remove="Data\Migrations\20201119095337_cascadeDelete1.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FontAwesome.MVC" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+  </ItemGroup>
+
+</Project>
